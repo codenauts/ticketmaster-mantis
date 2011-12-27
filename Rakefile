@@ -13,7 +13,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   gem.name = "ticketmaster-mantis"
-  gem.homepage = "http://github.com/ashtom/ticketmaster-mantis"
+  gem.homepage = "http://github.com/codenauts/ticketmaster-mantis"
   gem.license = "MIT"
   gem.summary = %Q{The codebase provider for ticketmaster}
   gem.description = %Q{This provides an interface with mantis through the ticketmaster gem.}

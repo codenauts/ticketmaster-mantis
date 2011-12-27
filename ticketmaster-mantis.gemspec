@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.files = [
     "README.md"
   ]
-  s.homepage = %q{http://github.com/ashtom/ticketmaster-mantis}
+  s.homepage = %q{http://github.com/codenauts/ticketmaster-mantis}
   s.licenses = [%q{MIT}]
   s.require_paths = [%q{lib}]
   s.rubygems_version = %q{1.8.5}
