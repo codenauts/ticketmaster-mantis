@@ -15,6 +15,9 @@ module TicketMaster::Provider
       end
       
       $mantis = ::Mantis::Session.new auth.url, auth.username, auth.password
+      
+      savon = $mantis.savon_client
+      savon.http.auth.ssl.verify_mode = :none
     end
     
     def raw_session
