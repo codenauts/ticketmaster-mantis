@@ -34,10 +34,19 @@ module TicketMaster::Provider
         search_by_attribute(self.find_all, attributes)
       end
 
-      def self.find_all
-        $mantis.projects.list.map do |project| 
-          Project.new project 
+      def self.find_all(with_subprojects = true)
+        projects = $mantis.projects.list
+        result = []
+        result << projects.map do |project| 
+          if project.subprojects.kind_of?(Hash) and project.subprojects[:item].kind_of?(Array)
+            [Project.new(project)] + project.subprojects[:item].map do |subproject|
+              Project.new subproject
+            end
+          else
+            Project.new project 
+          end
         end
+        result.flatten.uniq
       end
 
       def self.find_by_id(id)
