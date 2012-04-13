@@ -36,17 +36,7 @@ module TicketMaster::Provider
 
       def self.find_all(with_subprojects = true)
         projects = $mantis.projects.list
-        result = []
-        result << projects.map do |project| 
-          if project.subprojects.kind_of?(Hash) and project.subprojects[:item].kind_of?(Array)
-            [Project.new(project)] + project.subprojects[:item].map do |subproject|
-              Project.new subproject
-            end
-          else
-            Project.new project 
-          end
-        end
-        result.flatten.uniq
+        array_to_projects(projects)
       end
 
       def self.find_by_id(id)
@@ -56,6 +46,21 @@ module TicketMaster::Provider
       def ticket!(*options)
         options[0].merge!(:project_id => id) if options.first.is_a?(Hash)
         provider_parent(self.class)::Ticket.create(*options)
+      end
+
+      private
+
+      def self.array_to_projects(array)
+        result = []
+        array.each do |hash|
+          result << Project.new(hash)
+          puts hash.inspect
+
+          if hash[:subprojects].kind_of?(Hash) and hash[:subprojects][:item].kind_of?(Array)
+            result << array_to_projects(hash[:subprojects][:item])
+          end
+        end
+        result.flatten.uniq
       end
     end
   end
