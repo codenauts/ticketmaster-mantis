@@ -36,7 +36,7 @@ module TicketMaster::Provider
 
       def self.find_all(with_subprojects = true)
         projects = $mantis.projects.list
-        array_to_projects(projects)
+        array_to_projects(projects, with_subprojects)
       end
 
       def self.find_by_id(id)
@@ -50,13 +50,12 @@ module TicketMaster::Provider
 
       private
 
-      def self.array_to_projects(array)
+      def self.array_to_projects(array, recursive = true)
         result = []
         array.each do |hash|
           result << Project.new(hash)
-          puts hash.inspect
 
-          if hash[:subprojects].kind_of?(Hash) and hash[:subprojects][:item].kind_of?(Array)
+          if recursive and hash[:subprojects].kind_of?(Hash) and hash[:subprojects][:item].kind_of?(Array)
             result << array_to_projects(hash[:subprojects][:item])
           end
         end
