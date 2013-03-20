@@ -49,7 +49,7 @@ module TicketMaster::Provider
         })
         
         return nil if id.nil? or id.nil?
-        return self.find_by_id(attributes[:project_id], id)
+        return self.new(:id => id)
       end
             
       private
